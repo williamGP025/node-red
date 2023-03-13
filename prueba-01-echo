@@ -1,0 +1,199 @@
+[
+    {
+        "id": "6402ecf18dee8cb9",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d305c38c8f311830",
+        "type": "amazon-echo-hub",
+        "z": "6402ecf18dee8cb9",
+        "port": "80",
+        "processinput": 0,
+        "discovery": true,
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "16bae66c64b2c169"
+            ]
+        ]
+    },
+    {
+        "id": "16bae66c64b2c169",
+        "type": "amazon-echo-device",
+        "z": "6402ecf18dee8cb9",
+        "name": "Laptop",
+        "topic": "trabajo",
+        "x": 290,
+        "y": 140,
+        "wires": [
+            [
+                "17dcd611f44ccf9d",
+                "183e913c2e7c8810"
+            ]
+        ]
+    },
+    {
+        "id": "17dcd611f44ccf9d",
+        "type": "debug",
+        "z": "6402ecf18dee8cb9",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "9720d713ca127e26",
+        "type": "exec",
+        "z": "6402ecf18dee8cb9",
+        "command": "start chrome /incognito https://cemex.sharepoint.com/sites/PMO/Pages/welcome.aspx",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "timesheet",
+        "x": 1020,
+        "y": 200,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "183e913c2e7c8810",
+        "type": "function",
+        "z": "6402ecf18dee8cb9",
+        "name": "Validador de banderas",
+        "func": "console.log({msg});\nconst PAYLOAD = msg.payload;\nif (['on','off'].includes(PAYLOAD)) {\n    console.log('esperando un boleano: Alexa [enciende, apaga] dispositivo', PAYLOAD);\n    msg.payload = {\n        action:'on',\n        flag: msg['on']\n    };\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 140,
+        "wires": [
+            [
+                "6b261095cb30dffd",
+                "d7a8107e7a640f4b",
+                "379e512b3a229207"
+            ]
+        ]
+    },
+    {
+        "id": "6b261095cb30dffd",
+        "type": "debug",
+        "z": "6402ecf18dee8cb9",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "d7a8107e7a640f4b",
+        "type": "switch",
+        "z": "6402ecf18dee8cb9",
+        "name": "registrar horas",
+        "property": "payload.flag",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 800,
+        "y": 260,
+        "wires": [
+            [
+                "9720d713ca127e26",
+                "03255464d03f4f7b"
+            ]
+        ]
+    },
+    {
+        "id": "03255464d03f4f7b",
+        "type": "debug",
+        "z": "6402ecf18dee8cb9",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "379e512b3a229207",
+        "type": "switch",
+        "z": "6402ecf18dee8cb9",
+        "name": "abrir la camara del niño",
+        "property": "payload.flag",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 790,
+        "y": 420,
+        "wires": [
+            [
+                "03255464d03f4f7b",
+                "6d941d6d77ef5823"
+            ]
+        ]
+    },
+    {
+        "id": "6d941d6d77ef5823",
+        "type": "exec",
+        "z": "6402ecf18dee8cb9",
+        "command": "\"C:\\Program Files (x86)\\VMS\\VMS.exe\"",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "VMS",
+        "x": 1010,
+        "y": 420,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    }
+]
